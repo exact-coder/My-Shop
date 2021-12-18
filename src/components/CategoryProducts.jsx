@@ -1,7 +1,7 @@
 import { Box, Grid } from '@material-ui/core';
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { domain } from '../env'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { domain } from '../env';
 import { AllProducts } from './common/AllProducts';
 import { Headline } from './common/Headline';
 
@@ -22,7 +22,7 @@ export const CategoryProducts = () => {
         
     }, [])
     return (
-        <Grid container>
+        <Grid container  >
             {
                 categoryProducts?.map((item,i) => (
                     <Box key={i} container="div">

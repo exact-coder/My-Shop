@@ -1,8 +1,8 @@
-import axios from 'axios';
-import React,{useEffect,useState} from 'react';
-import {Headline} from './common/Headline'
-import {domain} from '../env';
 import { Grid } from '@material-ui/core';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { domain } from '../env';
+import { Headline } from './common/Headline';
 import { SingleCategory } from './common/SingleCategory';
 
 export const CategoryPage = () => {
