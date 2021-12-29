@@ -1,14 +1,19 @@
 import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from '@material-ui/core'
 import { AddShoppingCart } from '@material-ui/icons'
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 
 export const SingleProduct = ({product}) => {
+    const history = useHistory()
+    const productDetails = () => {
+        history.push(`/p-${product?.title}-${product?.id}`)
+    }
     return (
         <Card>
-            <CardActionArea>
+            <CardActionArea onClick={productDetails}>
             <CardMedia component={'img'} width={'200px'} height={'250px'} image={product?.image} style={{objectFit: 'contain', }}/>
             </CardActionArea>
-            <CardActionArea>
+            <CardActionArea onClick={productDetails}>
                 <CardContent>
                     <Typography style={{color: 'var(--navbar)',clear: 'both', display: 'inline-block',overflow: 'hidden', 
                     textTransform: 'uppercase', fontSize: '14px', fontWeight: 'bold',whiteSpace: 'nowrap'}}>
