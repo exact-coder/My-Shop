@@ -11,6 +11,7 @@ from .models import (
     Slider,
     CartProduct,
     Order,
+    TrendingProduct,
 )
 
 admin.site.register([
@@ -23,4 +24,5 @@ admin.site.register([
     Slider,
     CartProduct,
     Order,
+    TrendingProduct,
 ])

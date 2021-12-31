@@ -29,6 +29,21 @@ export const ProductDetails = () => {
     };
     getProductDetails();
   }, [id]);
+  useEffect(() => {
+    const addProductView = async() => {
+      await axios({
+        url: `${domain}/api/addproductview/`,
+        method: 'POST',
+        data: {
+          'id': id
+        }
+      }).then((response) => {
+      return response.data;
+      })
+    };
+    addProductView();
+  }, [id]);
+
   return (
     <Container style={{ paddingTop: "10px" }}>
       <Card>

@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.db.models.deletion import SET_NULL
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -79,6 +79,9 @@ class Slider(models.Model):
     image = models.ImageField(upload_to='slider/')
     ulr = models.TextField(default='#')
     product = models.ForeignKey(Product, on_delete=models.SET_NULL,blank=True,null=True)
+    """ class Meta:
+        verbose_name = 'HomeSlider'
+        verbose_name_plural = 'HomeSlider-s' """
     def __str__(self) :
         return self.name
 

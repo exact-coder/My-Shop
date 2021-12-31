@@ -34,4 +34,39 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id','customer','title']
         depth = 1
 
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = "__all__"
+        def imageurl(self, obj):
+            request = self.context.get('request')
+            return request.url('image')
+
+class TrendingProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TrendingProduct
+        fields = "__all__"
+    def to_representation(self,instance):
+        response = super().to_representation(instance)
+        request = self.context.get('request')
+        response['products'] = ProductSerializer(instance.products, context={'request': request}).data
+        return response
+
+class SliderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Slider
+        fields = "__all__"
+        def imageurl(self, obj):
+            request = self.context.get('request')
+            return request.url('image')
+
+class ProductViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductView
+        fields ="__all__"
+    def to_representation(self,instance):
+        response = super().to_representation(instance)
+        request = self.context.get('request')
+        response['product'] = ProductSerializer(instance.product, context={'request': request}).data
+        return response
 
