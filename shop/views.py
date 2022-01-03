@@ -1,8 +1,14 @@
+from django.db.models import Q
 from django.shortcuts import render
-from rest_framework.views import APIView
+from django.utils import timezone
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from .models import *
 from .serializers import *
+
 
 # Create your views here.
 class CategoryProductView(APIView):
@@ -97,3 +103,28 @@ class MostViewProducts(APIView):
         p_obj = ProductView.objects.all().order_by('-view')[:12]
         p_obj_ser = ProductViewSerializer(p_obj,many=True, context={'request': request}).data
         return Response(p_obj_ser)
+
+class SearchView(APIView):
+    def get(self,request,q):
+        data ={}
+        posts_lookup = (Q(title__icontains = q) | Q(details__icontains = q) | Q(price__icontains = q) | Q(tegs__icontains = q))
+        prod_obj = Product.objects.filter(date__lte= timezone.now()).filter(posts_lookup)
+        data['products'] = ProductSerializer(prod_obj,many=True, context={'request': request}).data
+
+        category_lookup = (Q(title__icontains=q) | Q(details__icontains=q))
+        category_obj = Category.objects.filter(date__lte=timezone.now()).filter(category_lookup)
+        data['category'] = CategorySerializer(category_obj, many=True, context={'request':request}).data
+
+        brand_lookup = (Q(title__icontains=q) | Q(details__icontains=q))
+        brand_obj = Brand.objects.filter(date__lte=timezone.now()).filter(brand_lookup)
+        data['brand'] = BrandSerializer(brand_obj, many=True, context={'request':request}).data
+
+        return Response(data)
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated, ]
+    authentication_classes = [TokenAuthentication, ]
+    def get(self,request):
+        customer_obj = Customer.objects.get(user = request.user)
+        customer_serializer = CustomerSerializer(customer_obj).data
+        return Response(customer_serializer)

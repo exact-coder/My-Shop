@@ -24,7 +24,7 @@ export const BrandsName = () => {
             <Headline title={'All'} subtitle={'Brands'}/> 
             {
                 brands?.map((item,i) => (
-                    <Grid item xs={4} sm={3} md={2} lg={2}>
+                    <Grid key={i} item xs={4} sm={3} md={2} lg={2}>
                         <SingleBrandName key={i} item={item}/>
                     </Grid>
                 ))

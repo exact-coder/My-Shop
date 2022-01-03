@@ -1,8 +1,8 @@
-import { Button, Grid, Typography } from '@material-ui/core'
-import { DoubleArrowSharp } from '@material-ui/icons'
-import React from 'react'
-import { useHistory } from 'react-router-dom'
-import { SingleProduct } from './SingleProduct'
+import { Button, Grid, Typography } from '@material-ui/core';
+import { DoubleArrowSharp } from '@material-ui/icons';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { SingleProduct } from './SingleProduct';
 
 export const AllProducts = ({products, showAll = false, categorytitle, categoryid}) => {
     const history = useHistory();
