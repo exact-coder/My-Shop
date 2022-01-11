@@ -128,3 +128,14 @@ class ProfileView(APIView):
         customer_obj = Customer.objects.get(user = request.user)
         customer_serializer = CustomerSerializer(customer_obj).data
         return Response(customer_serializer)
+
+class RegisterUserView(APIView):
+    def post(self,request):
+        serializers = UserSerializer(data=request.data)
+        if serializers.is_valid(raise_exception=True):
+            serializers.save()
+            return Response({'error':False,'message':'User Was Created!!'})
+        return Response ({'error':True, 'message': 'User Was Not Created!!'})
+
+
+

@@ -1,9 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from .views import *
 from rest_framework.authtoken.views import obtain_auth_token
 
-
+from .views import *
 
 urlpatterns = [
     path('categoryproducts/', CategoryProductView.as_view()),
@@ -19,6 +18,7 @@ urlpatterns = [
     path('mostviewproduct/', MostViewProducts.as_view()),
     path('search/<str:q>/', SearchView.as_view()),
     path('profile/', ProfileView.as_view()),
+    path('register/', RegisterUserView.as_view()),
     path('login/', obtain_auth_token),
 
 ]

@@ -1,13 +1,13 @@
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import axios from "axios";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { domain } from "../env";
 
 export const AuthPage = () => {
   const [authchaker, setAuthchaker] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
   const loginNow = async() => {
       await axios({
           url: `${domain}/api/login/`,
@@ -22,13 +22,26 @@ export const AuthPage = () => {
              window.localStorage.setItem('token',data['token']);
              window.location.href = '/';
          }else{
-             alert("Somthing is Wrong here!! Try Agani !!")
+             alert("Somthing is Wrong here!! Try Again !!")
          }
         
       }).catch((e)=> {
           console.log(e);
-          alert("Somthing is Wrong here!! Try Agani !!");
+          alert("Somthing is Wrong here!! Try Again !!");
       })
+  }
+  const registerNow = async() => {
+    if(password === password2 && email){
+      await axios({
+        url: `${domain}/api/register/`,
+        method: 'POST',
+        data: {'email': email, 'password': password}
+      }).then((response) => {
+        console.log(response.data);
+      })
+    }else{
+      alert("YOU GIVE INCORRECT INFORMATION !!")
+    }
   }
   return (
     <Grid
@@ -93,9 +106,10 @@ export const AuthPage = () => {
               color: "var(--orange)",
               borderRadius: "5px",
             }}
+            onChange={(e) => {setPassword2(e.target.value)}}
           />
         )}
-        {authchaker ? <Button
+        {authchaker ? <Button onClick={registerNow}
           variant="contained"
           style={{
             background: "var(--orange)",

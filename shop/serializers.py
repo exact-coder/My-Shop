@@ -1,6 +1,29 @@
+from django.contrib.auth import get_user_model
 from django.db.models import fields
 from rest_framework import serializers
+
 from .models import *
+
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'password', 'email')
+        extra_kwargs = {'password':{'write_only':True, 'required':True}}
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
+
+class CustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Customer
+        fields = "__all__"
+    def to_representation(self, instance):
+        response =  super().to_representation(instance)
+        request = self.context.get('request')
+        response['user'] = UserSerializer(instance.user).data
+        return response
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -70,7 +93,3 @@ class ProductViewSerializer(serializers.ModelSerializer):
         response['product'] = ProductSerializer(instance.product, context={'request': request}).data
         return response
 
-class CustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = "__all__"
